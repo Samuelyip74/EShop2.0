@@ -4,12 +4,12 @@ from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path,include
 
+
 urlpatterns = [
-    url(r'^$', include('frontendapp.urls'), name='frontend'),
-    # path('', include('frontendapp.urls'),
-    path('admin/', admin.site.urls),
     # API Framework URLs
     url(r'^api/account/', include('account.api.urls'), name='account_api'),
+    path('admin/', admin.site.urls),
+    url(r'^.*$', include('frontendapp.urls'), name='frontend'),
 ]
 
 if settings.DEBUG:
