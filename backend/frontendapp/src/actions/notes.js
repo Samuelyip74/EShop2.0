@@ -1,9 +1,13 @@
-export const login = (username, password) => {
+export const fetchNotes = () => {
     return (dispatch, getState) => {
       let headers = {"Content-Type": "application/json"};
-      let body = JSON.stringify({username, password});
+      let {token} = getState().auth;
   
-      return fetch("/api/account/login/", {headers, body, method: "POST"})
+      if (token) {
+        headers["Authorization"] = `Token ${token}`;
+      }
+  
+      return fetch("/api/notes/", {headers, })
         .then(res => {
           if (res.status < 500) {
             return res.json().then(data => {
@@ -16,25 +20,61 @@ export const login = (username, password) => {
         })
         .then(res => {
           if (res.status === 200) {
-            dispatch({type: 'LOGIN_SUCCESSFUL', data: res.data });
-            return res.data;
-          } else if (res.status === 403 || res.status === 401) {
+            return dispatch({type: 'FETCH_NOTES', notes: res.data});
+          } else if (res.status === 401 || res.status === 403) {
             dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
-            throw res.data;
-          } else {
-            dispatch({type: "LOGIN_FAILED", data: res.data});
             throw res.data;
           }
         })
     }
   }
-
-  export const register = (username, password) => {
+  
+  export const addNote = text => {
     return (dispatch, getState) => {
       let headers = {"Content-Type": "application/json"};
-      let body = JSON.stringify({username, password});
+      let {token} = getState().auth;
   
-      return fetch("/api/account/register/", {headers, body, method: "POST"})
+      if (token) {
+        headers["Authorization"] = `Token ${token}`;
+      }
+  
+      let body = JSON.stringify({text, });
+      return fetch("/api/notes/", {headers, method: "POST", body})
+        .then(res => {
+          if (res.status < 500) {
+            return res.json().then(data => {
+              return {status: res.status, data};
+            })
+          } else {
+            console.log("Server Error!");
+            throw res;
+          }
+        })
+        .then(res => {
+          if (res.status === 201) {
+            return dispatch({type: 'ADD_NOTE', note: res.data});
+          } else if (res.status === 401 || res.status === 403) {
+            dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
+            throw res.data;
+          }
+        })
+    }
+  }
+  
+  export const updateNote = (index, text) => {
+    return (dispatch, getState) => {
+  
+      let headers = {"Content-Type": "application/json"};
+      let {token} = getState().auth;
+  
+      if (token) {
+        headers["Authorization"] = `Token ${token}`;
+      }
+  
+      let body = JSON.stringify({text, });
+      let noteId = getState().notes[index].id;
+  
+      return fetch(`/api/notes/${noteId}/`, {headers, method: "PUT", body})
         .then(res => {
           if (res.status < 500) {
             return res.json().then(data => {
@@ -47,24 +87,28 @@ export const login = (username, password) => {
         })
         .then(res => {
           if (res.status === 200) {
-            dispatch({type: 'REGISTRATION_SUCCESSFUL', data: res.data });
-            return res.data;
-          } else if (res.status === 403 || res.status === 401) {
+            return dispatch({type: 'UPDATE_NOTE', note: res.data, index});
+          } else if (res.status === 401 || res.status === 403) {
             dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
-            throw res.data;
-          } else {
-            dispatch({type: "REGISTRATION_FAILED", data: res.data});
             throw res.data;
           }
         })
     }
   }
-
-  export const logout = () => {
-    return (dispatch, getState) => {
-      let headers = {"Content-Type": "application/json"};
   
-      return fetch("/api/auth/logout/", {headers, body: "", method: "POST"})
+  export const deleteNote = index => {
+    return (dispatch, getState) => {
+  
+      let headers = {"Content-Type": "application/json"};
+      let {token} = getState().auth;
+  
+      if (token) {
+        headers["Authorization"] = `Token ${token}`;
+      }
+  
+      let noteId = getState().notes[index].id;
+  
+      return fetch(`/api/notes/${noteId}/`, {headers, method: "DELETE"})
         .then(res => {
           if (res.status === 204) {
             return {status: res.status, data: {}};
@@ -79,46 +123,8 @@ export const login = (username, password) => {
         })
         .then(res => {
           if (res.status === 204) {
-            dispatch({type: 'LOGOUT_SUCCESSFUL'});
-            return res.data;
-          } else if (res.status === 403 || res.status === 401) {
-            dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
-            throw res.data;
-          }
-        })
-    }
-  }
-
-  export const loadUser = () => {
-    return (dispatch, getState) => {
-      dispatch({type: "USER_LOADING"});
-  
-      const token = getState().token;
-      let headers = {
-        "Content-Type": "application/json",
-      };
-  
-      if (token) {
-        headers["Authorization"] = `Token ${token}`;
-      }
-      return fetch("/api/account/user/", {
-        headers,
-       })
-        .then(res => {
-          if (res.status < 500) {
-            return res.json().then(data => {
-              return {status: res.status, data};
-            })
-          } else {
-            console.log("Server Error!");
-            throw res;
-          }
-        })
-        .then(res => {
-          if (res.status === 200) {
-            dispatch({type: 'USER_LOADED', user: res.data });
-            return res.data;
-          } else if (res.status >= 400 && res.status < 500) {
+            return dispatch({type: 'DELETE_NOTE', index});
+          } else if (res.status === 401 || res.status === 403) {
             dispatch({type: "AUTHENTICATION_ERROR", data: res.data});
             throw res.data;
           }
