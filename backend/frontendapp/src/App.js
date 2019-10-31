@@ -29,12 +29,15 @@ class RootContainerComponent extends Component {
     let {PrivateRoute} = this;
     return (
       <BrowserRouter>
+      <div>
         <Switch>
           <PrivateRoute exact path="/" component={HomePage} />
+          {/* <Route exact path="/dashboard" component={dashboard} /> */}
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           {/* <Route component={NotFound} /> */}
         </Switch>
+      </div>
       </BrowserRouter>
     );
   }

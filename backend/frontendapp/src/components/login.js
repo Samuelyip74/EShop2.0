@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -103,7 +102,7 @@ class Login extends Component {
             color="primary"
             className={useStyles.submit}
           >
-            Sign Up
+            Login
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

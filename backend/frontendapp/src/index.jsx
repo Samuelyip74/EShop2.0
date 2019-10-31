@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 //React-redux
 import { Provider } from 'react-redux'
 import store from './store/configureStore';
@@ -9,4 +10,4 @@ ReactDOM.render((
   <Provider store={store}>
       <App /> 
   </Provider>
-), document.getElementById('react-app'));
+), document.getElementById('root'));
