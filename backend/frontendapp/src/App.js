@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 import {auth} from "./actions";
 import HomePage from './components/home';
 import Login from "./components/login";
-// import Register from "./components/Register";
+import Register from "./components/Register";
 
 class RootContainerComponent extends Component {
 
@@ -31,7 +31,7 @@ class RootContainerComponent extends Component {
       <BrowserRouter>
         <Switch>
           <PrivateRoute exact path="/" component={HomePage} />
-          {/* <Route exact path="/register" component={Register} /> */}
+          <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           {/* <Route component={NotFound} /> */}
         </Switch>
