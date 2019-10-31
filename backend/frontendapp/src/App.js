@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
+import {Redirect} from "react-router-dom";
 import {auth} from "./actions";
 import HomePage from './components/home';
 import Login from "./components/login";

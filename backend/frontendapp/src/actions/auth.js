@@ -62,11 +62,18 @@ export const login = (username, password) => {
 
   export const logout = () => {
     return (dispatch, getState) => {
-      let headers = {"Content-Type": "application/json"};
+      const token = getState().token;
+      let headers = {
+        "Content-Type": "application/json",
+      };
   
-      return fetch("/api/auth/logout/", {headers, body: "", method: "POST"})
+      if (token) {
+        headers["Authorization"] = `Token ${token}`;
+      }  
+      return fetch("/api/account/logout/", {headers, body: "", method: "POST"})
         .then(res => {
-          if (res.status === 204) {
+          if (res.status === 200) {
+            dispatch({type: 'LOGOUT_SUCCESSFUL'});
             return {status: res.status, data: {}};
           } else if (res.status < 500) {
             return res.json().then(data => {
@@ -78,7 +85,7 @@ export const login = (username, password) => {
           }
         })
         .then(res => {
-          if (res.status === 204) {
+          if (res.status === 200) {
             dispatch({type: 'LOGOUT_SUCCESSFUL'});
             return res.data;
           } else if (res.status === 403 || res.status === 401) {

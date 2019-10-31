@@ -18,6 +18,7 @@ class Login extends Component {
     }
   
     render() {
+
       if (this.props.isAuthenticated) {
         return <Redirect to="/" />
       }
@@ -25,6 +26,13 @@ class Login extends Component {
         <form onSubmit={this.onSubmit}>
         <fieldset>
           <legend>Login</legend>
+          {this.props.errors.length > 0 && (
+            <ul>
+              {this.props.errors.map(error => (
+                <li key={error.field}>{error.message}</li>
+              ))}
+            </ul>
+          )}
           <p>
             <label htmlFor="username">Username</label>
             <input
