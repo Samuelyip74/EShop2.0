@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Redirect} from "react-router-dom";
 import {auth} from "./actions";
 import HomePage from './components/home';
-import Login from "./components/login";
+import Login from "./components/Login";
 import Register from "./components/Register";
 
 
@@ -28,9 +28,8 @@ function PrivateRouteComponent  ({component: ChildComponent, ...rest}) {
 function RootContainerComponent (props) {
 
   const dispatch = useDispatch();
-  // const PrivateRoute = <PrivateRouteComponent />;
 
-  React.useEffect(() => { // Pass in a callback function!
+  React.useEffect(() => { 
     dispatch(auth.loadUser());
   }, []);
 

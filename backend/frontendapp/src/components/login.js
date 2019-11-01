@@ -1,5 +1,6 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {connect} from "react-redux";
+import { useSelector, useEffect, useDispatch  } from 'react-redux';
 import {auth} from "../actions";
 import { Redirect} from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
@@ -40,34 +41,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-class Login extends Component {
 
-    state = {
-        username: "",
-        password: "",
-    }
+function Login (props) {
+    const classes = useStyles();
+    const state = useSelector(state => state);
+    const dispatch = useDispatch();
+    const [username, setUsername] = useState( '' );
+    const [password, setPassword] = useState( '' );
 
-    onSubmit = e => {
+    const onSubmit = e => {
       e.preventDefault();
-      this.props.login(this.state.username, this.state.password);
+      dispatch(auth.login(username,password));
     }
-  
-    render() {
 
-      if (this.props.isAuthenticated) {
+      if (state.isAuthenticated) {
         return <Redirect to="/" />
       }
       return (
         <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={useStyles.paper}>
-        <Avatar className={useStyles.avatar}>
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Log in
+          Sign in
         </Typography>
-        <form onSubmit={this.onSubmit} className={useStyles.form} noValidate>
+        <form onSubmit={onSubmit} className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -75,10 +75,10 @@ class Login extends Component {
                 required
                 fullWidth
                 id="username"
-                label="username"
+                label="Username"
                 name="username"
                 autoComplete="username"
-                onChange={e => this.setState({username: e.target.value})}
+                onChange={e => setUsername(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -91,7 +91,7 @@ class Login extends Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={e => this.setState({password: e.target.value})}
+                onChange={e => setPassword(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -100,7 +100,7 @@ class Login extends Component {
             fullWidth
             variant="contained"
             color="primary"
-            className={useStyles.submit}
+            className={classes.submit}
           >
             Login
           </Button>
@@ -116,27 +116,6 @@ class Login extends Component {
     </Container>
       )
     }
-  }
-  
-  const mapStateToProps = state => {
-    let errors = [];
-    if (state.errors) {
-      errors = Object.keys(state.errors).map(field => {
-        return {field, message: state.errors[field]};
-      });
-    }
-    return {
-      errors,
-      isAuthenticated: state.isAuthenticated
-    };
-  }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      login: (username, password) => {
-        return dispatch(auth.login(username, password));
-      }
-    };
-  }
 
-  export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+  export default Login;
