@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
+import { useSelector, useEffect, useDispatch  } from 'react-redux';
 import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Redirect} from "react-router-dom";
@@ -7,31 +8,37 @@ import HomePage from './components/home';
 import Login from "./components/login";
 import Register from "./components/Register";
 
-class RootContainerComponent extends Component {
 
-  componentDidMount() {
-    this.props.loadUser();
-  }
+function PrivateRouteComponent  ({component: ChildComponent, ...rest}) {
 
-  PrivateRoute = ({component: ChildComponent, ...rest}) => {
-    return <Route {...rest} render={props => {
-      if (this.props.auth.isLoading) {
-        return <em>Loading...</em>;
-      } else if (!this.props.auth.isAuthenticated) {
-        return <Redirect to="/login" />;
-      } else {
-        return <ChildComponent {...props} />
-      }
-    }} />
-  }
+  const state = useSelector(state => state);
 
-  render() {
-    let {PrivateRoute} = this;
+  return <Route {...rest} render={props => {
+    if (state.isLoading) {
+      return <em>Loading...</em>;
+    } else if (!state.isAuthenticated) {
+      return <Redirect to="/login" />;
+    } else {
+      return <ChildComponent {...props} />
+    }
+  }} />
+}
+
+
+function RootContainerComponent (props) {
+
+  const dispatch = useDispatch();
+  // const PrivateRoute = <PrivateRouteComponent />;
+
+  React.useEffect(() => { // Pass in a callback function!
+    dispatch(auth.loadUser());
+  }, []);
+
     return (
       <BrowserRouter>
       <div>
         <Switch>
-          <PrivateRoute exact path="/" component={HomePage} />
+          <PrivateRouteComponent exact path="/" component={HomePage} />
           {/* <Route exact path="/dashboard" component={dashboard} /> */}
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
@@ -41,30 +48,11 @@ class RootContainerComponent extends Component {
       </BrowserRouter>
     );
   }
-}
 
-const mapStateToProps = state => {
-  return {
-    auth: state,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadUser: () => {
-      return dispatch(auth.loadUser());
-    }
-  }
-}
-
-let RootContainer = connect(mapStateToProps, mapDispatchToProps)(RootContainerComponent);
-
-class App extends Component {
-  render() {
+function App (props){
     return (
-      <RootContainer />    
+      <RootContainerComponent />    
     );
-  }
 }
 export default App;
 
