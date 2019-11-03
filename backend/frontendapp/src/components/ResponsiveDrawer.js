@@ -121,20 +121,21 @@ function ResponsiveDrawer(props) {
            Restaurant App
           </Typography>
           <Typography variant="body1" noWrap className={""}>
-          <IsUserNull />
+          {/* <IsUserNull /> */}
           </Typography>
-          <Link to="/app/" style={{ textDecoration: 'none' }}
-          onClick={() => dispatch(auth.logout())}
-          >
+          
           <IconButton
+            aria-hidden="true"
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
             color="inherit"
+          ><Link to="/app/"  style={{ textDecoration: 'none', color: 'lightgray' } }
+          onClick={() => dispatch(auth.logout())}
           >
-            <AccountCircle />
+            <AccountCircle  />
+            </Link>
         </IconButton>
-        </Link>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
