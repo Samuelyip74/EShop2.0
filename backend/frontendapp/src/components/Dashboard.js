@@ -1,4 +1,7 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import ProductCard from "./ProductCard";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -39,47 +42,63 @@ const list = [
 
 export default function Dashboard(props) {
   const classes = useStyles();
+  const [data, setdata] = useState( [] );
+  const [loading, setloading] = useState(true);
 
-  return (
-    <div className={classes.root} style={{marginLeft:5,marginRight:5}}>
-      <Grid 
-        container
-        direction="row"
-        justify="space-evenly"
-        alignItems="center"
-        spacing={1}>
-        {list.map(item => (
-          <Grid item xs={6} sm={3} key={item.id}>
-            <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                    className={classes.media}
-                    image={item.image}
-                    title={item.name}
-                    />
-                    <CardContent style={{display:'flex',}}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {item.name}
-                    </Typography>
-                    {/* <Typography variant="body2" color="textSecondary" component="p">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                        across all continents except Antarctica
-                    </Typography> */}
-                    </CardContent>
-                </CardActionArea>
-                {/* <CardActions>
-                    <Button size="small" color="primary">
-                    Share
-                    </Button>
-                    <Button size="small" color="primary">
-                    Learn More
-                    </Button>
-                </CardActions> */}
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
-  );
+  useEffect(() => { 
+    axios.get(`http://127.0.0.1:8000/api/product/category/`)
+        .then(res => {           
+        setdata(res.data);
+        setloading(false);
+    })
+  }, []);
+
+  if(loading) {
+    return (
+    <div><CircularProgress /></div>
+    )
+  } else {
+    return (
+        <div className={classes.root} style={{marginLeft:5,marginRight:5}}>
+        <Grid 
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+            spacing={1}>
+            {data.map(item => (
+            <Grid item xs={6} sm={3} key={item.id}>
+                <Card className={classes.card}>
+                    <CardActionArea>
+                        <CardMedia
+                        className={classes.media}
+                        image={item.image}
+                        title={item.name}
+                        />
+                        <CardContent style={{display:'flex',}}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {item.name}
+                        </Typography>
+                        {/* <Typography variant="body2" color="textSecondary" component="p">
+                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                            across all continents except Antarctica
+                        </Typography> */}
+                        </CardContent>
+                    </CardActionArea>
+                    {/* <CardActions>
+                        <Button size="small" color="primary">
+                        Share
+                        </Button>
+                        <Button size="small" color="primary">
+                        Learn More
+                        </Button>
+                    </CardActions> */}
+                </Card>
+            </Grid>
+            ))}
+        </Grid>
+        </div>
+    );
+  }
 }
 
