@@ -53,7 +53,7 @@ function Register (props) {
   }
 
     if (state.isAuthenticated) {
-      return <Redirect to="/dashboard" />
+      return <Redirect to="/app/dashboard" />
     }
     return (
       <Container component="main" maxWidth="xs">
@@ -104,7 +104,7 @@ function Register (props) {
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
-            <Link href="/login" variant="body2">
+            <Link href="/app/login" variant="body2">
               Already have an account? Login here.
             </Link>
           </Grid>

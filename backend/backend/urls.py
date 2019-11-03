@@ -9,7 +9,7 @@ urlpatterns = [
     # API Framework URLs
     url(r'^api/account/', include('account.api.urls'), name='account_api'),
     url(r'^api/product/', include('product.api.urls'), name='product_api'),
-    url(r'^app/', include('frontendapp.urls'), name='frontend'),
+    url(r'^app/.*$', include('frontendapp.urls'), name='frontend'),
     path('admin/', admin.site.urls),
 ]
 

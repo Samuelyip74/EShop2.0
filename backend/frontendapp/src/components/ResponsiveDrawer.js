@@ -123,7 +123,7 @@ function ResponsiveDrawer(props) {
           <Typography variant="body1" noWrap className={""}>
           <IsUserNull />
           </Typography>
-          <Link to="/" style={{ textDecoration: 'none' }}
+          <Link to="/app/" style={{ textDecoration: 'none' }}
           onClick={() => dispatch(auth.logout())}
           >
           <IconButton
