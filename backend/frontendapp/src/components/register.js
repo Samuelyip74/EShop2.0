@@ -53,7 +53,7 @@ function Register (props) {
   }
 
     if (state.isAuthenticated) {
-      return <Redirect to="/" />
+      return <Redirect to="/dashboard" />
     }
     return (
       <Container component="main" maxWidth="xs">

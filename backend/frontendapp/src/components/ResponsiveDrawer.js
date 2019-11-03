@@ -13,6 +13,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link, withRouter } from 'react-router-dom'
+import { useSelector, useEffect, useDispatch  } from 'react-redux';
+import {notes, auth} from "../actions";
+
+
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -56,11 +60,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 function ResponsiveDrawer(props) {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch()
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const IsUserNull = () => {
+    const stateUsername = useSelector(state => state);
+    if(stateUsername.user == null){
+      return <div></div>
+    }
+    else {
+      return <span>{stateUsername.user.username}</span>
+    }
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -102,7 +120,12 @@ function ResponsiveDrawer(props) {
           <Typography variant="h6" noWrap className={classes.title}>
            Restaurant App
           </Typography>
-          <Link to="/register" style={{ textDecoration: 'none' }}>
+          <Typography variant="body1" noWrap className={""}>
+          <IsUserNull />
+          </Typography>
+          <Link to="/" style={{ textDecoration: 'none' }}
+          onClick={() => dispatch(auth.logout())}
+          >
           <IconButton
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"

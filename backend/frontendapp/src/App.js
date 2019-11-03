@@ -4,7 +4,7 @@ import {BrowserRouter, Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Redirect} from "react-router-dom";
 import {auth} from "./actions";
-import HomePage from './components/home';
+import HomePage from './components/Home';
 import Login from "./components/Login";
 import Register from "./components/Register";
 
@@ -37,10 +37,10 @@ function RootContainerComponent (props) {
       <BrowserRouter>
       <div>
         <Switch>
-          <PrivateRouteComponent exact path="/" component={HomePage} />
           {/* <Route exact path="/dashboard" component={dashboard} /> */}
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <PrivateRouteComponent path="/" component={HomePage} />
           {/* <Route component={NotFound} /> */}
         </Switch>
       </div>

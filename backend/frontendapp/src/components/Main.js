@@ -11,14 +11,6 @@ import { withRouter } from 'react-router-dom';
 
 const Main = () => (
   <main>
-    <div>
-      <ul>
-        <li>
-        <Link to={`/dashboard`}>Dashboard</Link>
-        </li>
-      </ul>
-    </div>
-    <div>
     <Switch>
       {/* <Route exact path='/' component={Dashboard}/> */}
       <Route path='/dashboard' component={Dashboard}/>
@@ -28,8 +20,7 @@ const Main = () => (
       <Route path='/promotion' component={Promotion}/>
       {/* <Route path='/register' component={Register}/> */}
     </Switch>
-    </div>
   </main>
 )
 
-export default withRouter(Main);
+export default Main;
