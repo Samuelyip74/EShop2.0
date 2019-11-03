@@ -55,7 +55,7 @@ function Login (props) {
     }
 
       if (state.isAuthenticated) {
-        return <Redirect to="/dashboard" />
+        return <Redirect to="/app/dashboard" />
       }
       return (
         <Container component="main" maxWidth="xs">

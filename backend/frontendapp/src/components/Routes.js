@@ -4,14 +4,14 @@ import PromotionPage from './Promotion';
 
 const Routes = [
   {
-    path: '/dashboard',
+    path: '/app/dashboard',
     sidebarName: 'Home',
     navbarName: 'Home',
     icon: Home,
     component: DashboardPage
   },
   {
-    path: '/promotion',
+    path: '/app/promotion',
     sidebarName: 'Promotion',
     navbarName: 'Promotion',
     icon: Home,

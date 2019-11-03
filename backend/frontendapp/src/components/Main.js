@@ -13,11 +13,11 @@ const Main = () => (
   <main>
     <Switch>
       {/* <Route exact path='/' component={Dashboard}/> */}
-      <Route path='/dashboard' component={Dashboard}/>
-      <Route path='/rewards' component={Rewards}/>
-      <Route path='/coupon' component={Coupon}/>
-      <Route path='/cart' component={Cart}/>
-      <Route path='/promotion' component={Promotion}/>
+      <Route path='/app/dashboard' component={Dashboard}/>
+      <Route path='/app/rewards' component={Rewards}/>
+      <Route path='/app/coupon' component={Coupon}/>
+      <Route path='/app/cart' component={Cart}/>
+      <Route path='/app/promotion' component={Promotion}/>
       {/* <Route path='/register' component={Register}/> */}
     </Switch>
   </main>

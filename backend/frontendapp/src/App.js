@@ -17,7 +17,7 @@ function PrivateRouteComponent  ({component: ChildComponent, ...rest}) {
     if (state.isLoading) {
       return <em>Loading...</em>;
     } else if (!state.isAuthenticated) {
-      return <Redirect to="/login" />;
+      return <Redirect to="/app/login" />;
     } else {
       return <ChildComponent {...props} />
     }
@@ -38,9 +38,9 @@ function RootContainerComponent (props) {
       <div>
         <Switch>
           {/* <Route exact path="/dashboard" component={dashboard} /> */}
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <PrivateRouteComponent path="/" component={HomePage} />
+          <Route path="/app/register" component={Register} />
+          <Route path="/app/login" component={Login} />
+          <PrivateRouteComponent path="/app/" component={HomePage} />
           {/* <Route component={NotFound} /> */}
         </Switch>
       </div>

@@ -8,8 +8,9 @@ from django.urls import path,include
 urlpatterns = [
     # API Framework URLs
     url(r'^api/account/', include('account.api.urls'), name='account_api'),
+    url(r'^api/product/', include('product.api.urls'), name='product_api'),
+    url(r'^app/', include('frontendapp.urls'), name='frontend'),
     path('admin/', admin.site.urls),
-    url(r'^.*$', include('frontendapp.urls'), name='frontend'),
 ]
 
 if settings.DEBUG:

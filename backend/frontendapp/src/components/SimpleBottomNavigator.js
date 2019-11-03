@@ -37,11 +37,11 @@ export default function SimpleBottomNavigation() {
       showLabels
       className={classes.BottomNavBar}
     >
-      <BottomNavigationAction label="Promo" icon={<PromotionIcon />} component={Link} to="/promotion"/>
-      <BottomNavigationAction label="Rewards" icon={<RewardsIcon />} component={Link} to="/rewards" />
-      <BottomNavigationAction label="Menu" icon={<HomeIcon />} component={Link} to="/dashboard" />
-      <BottomNavigationAction label="Coupon" icon={<CouponIcon />} component={Link} to="/coupon"/>
-      <BottomNavigationAction label="Cart" icon={<CartIcon />} component={Link} to="/cart"/>
+      <BottomNavigationAction label="Promo" icon={<PromotionIcon />} component={Link} to="/app/promotion"/>
+      <BottomNavigationAction label="Rewards" icon={<RewardsIcon />} component={Link} to="/app/rewards" />
+      <BottomNavigationAction label="Menu" icon={<HomeIcon />} component={Link} to="/app/dashboard" />
+      <BottomNavigationAction label="Coupon" icon={<CouponIcon />} component={Link} to="/app/coupon"/>
+      <BottomNavigationAction label="Cart" icon={<CartIcon />} component={Link} to="/app/cart"/>
     </BottomNavigation>
   );
 }
