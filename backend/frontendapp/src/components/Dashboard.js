@@ -81,7 +81,9 @@ export default function Dashboard(props) {
                     </CardActionArea>
                 </Card>
                 </Link>
-                <Route path={`/app/dashboard/:category`} component={ProductCard}/>
+                <Route path={`/app/dashboard/:category`}>
+                  <ProductCard product={item.name} />
+                </Route>
             </Grid>
             ))}
         </Grid>
