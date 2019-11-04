@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link,Switch, Route } from 'react-router-dom'
+import { Link, Switch, Route } from 'react-router-dom'
 
 import ProductCard from "./ProductCard";
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +61,7 @@ export default function Dashboard(props) {
             spacing={1}>
             {data.map(item => (
             <Grid item xs={6} sm={3} key={item.id}>
-                <Link to={`/app/dashboard/${item.name}`} style={{textDecoration:'none'}}>
+                <Link to={`/app/category/${item.name}`} style={{textDecoration:'none'}}>
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
@@ -81,9 +81,9 @@ export default function Dashboard(props) {
                     </CardActionArea>
                 </Card>
                 </Link>
-                <Route path={`/app/dashboard/:category`}>
+                {/* <Route path={`/app/dashboard/:category`}>
                   <ProductCard product={item.name} />
-                </Route>
+                </Route> */}
             </Grid>
             ))}
         </Grid>

@@ -1,89 +1,93 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Link, Switch, Route,   useParams } from 'react-router-dom'
+import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
   card: {
-    maxWidth: 345,
+      // TODO: Calc width divide by 2
+      minWidth: 180,
+      maxWidth: 345,
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
+      height: 140,
   },
 }));
 
 export default function ProductCard(props) {
+  let { category } = useParams();
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [data, setdata] = useState( [] );
+  const [loading, setloading] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  return (
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.media}
-        image={props.product.image}
-        title={props.product.name}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {props.product.name}
-        </Typography>      
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            {props.product.description}
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
+  useEffect(() => { 
+    axios.get(`http://127.0.0.1:8000/api/product/category/` + category)
+        .then(res => {           
+        setdata(res.data);
+        setloading(false);
+    })
+  }, []);
+
+  if(loading) {
+    return (
+    <div><CircularProgress /></div>
+    )
+  } else {
+    return (
+        <div className={classes.root} style={{marginLeft:5,marginRight:5}}>
+        <Grid 
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+            spacing={1}>
+            {data.map(item => (
+            <Grid item xs={6} sm={3} key={item.id}>
+                <Link to={`/app/category/${item.id}`} style={{textDecoration:'none'}}>
+                <Card className={classes.card}>
+                    <CardActionArea>
+                        <CardMedia
+                        className={classes.media}
+                        image={"http://127.0.0.1:8000" + item.images[0].image}
+                        title={item.sku}
+                        />
+                        <CardContent style={{display:'flex',}}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {item.sku}
+                        </Typography>
+                        {/* <Typography variant="body2" color="textSecondary" component="p">
+                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                            across all continents except Antarctica
+                        </Typography> */}
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+                </Link>
+                {/* <Route path={`/app/dashboard/:category`}>
+                  <ProductCard product={item.name} />
+                </Route> */}
+            </Grid>
+            ))}
+        </Grid>
+        </div>
+    );
+  }
 }
