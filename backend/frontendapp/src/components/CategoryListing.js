@@ -61,7 +61,7 @@ export default function ProductCard(props) {
             spacing={1}>
             {data.map(item => (
             <Grid item xs={6} sm={3} key={item.id}>
-                <Link to={`/app/category/${item.id}`} style={{textDecoration:'none'}}>
+                <Link to={`/app/product/${item.id}`} style={{textDecoration:'none'}}>
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia

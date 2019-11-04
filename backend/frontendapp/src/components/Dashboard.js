@@ -3,7 +3,7 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link, Switch, Route } from 'react-router-dom'
 
-import ProductCard from "./ProductCard";
+import CategoryListing from "./CategoryListing";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -43,7 +43,7 @@ export default function Dashboard(props) {
 
   function handleProductCard () {
     console.log('clicked');
-    return ( <ProductCard /> )
+    return ( <CategoryListing /> )
   }
 
   if(loading) {
