@@ -1,18 +1,16 @@
 import React from 'react'
-import { Link,Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import Dashboard from './Dashboard';
 import Rewards from './Rewards';
 import Cart from './Cart';
 import Coupon from './Coupon';
 import Promotion from './Promotion';
-import { withRouter } from 'react-router-dom';
 import CategoryListing from './CategoryListing';
 
 
 const Main = () => (
   <main>
     <Switch>
-      {/* <Route exact path='/' component={Dashboard}/> */}
       <Route exact path='/app/dashboard' component={Dashboard}/>
       <Route exact path='/app/category/:category' component={CategoryListing}/>
       <Route exact path='/app/rewards' component={Rewards}/>
