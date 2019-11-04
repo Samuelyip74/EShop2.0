@@ -130,9 +130,8 @@ function ResponsiveDrawer(props) {
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
             color="inherit"
-          ><Link to="/app/"  style={{ textDecoration: 'none', color: 'lightgray' } }
-          onClick={() => dispatch(auth.logout())}
-          >
+            onClick={() => dispatch(auth.logout())}
+          ><Link to="/app/"  style={{ textDecoration: 'none', color: 'lightgray' }}>
             <AccountCircle  />
             </Link>
         </IconButton>

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'frontendapp',
     'account',
     'product',
+    'cart',
 ]
 
 SITE_ID = 1

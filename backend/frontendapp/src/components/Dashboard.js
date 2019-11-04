@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Link,Switch, Route } from 'react-router-dom'
 
 import ProductCard from "./ProductCard";
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,24 +28,11 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const list = [
-    {
-      id: '1',
-      name: 'Breakfast',
-      image: 'https://image.shutterstock.com/z/stock-photo-american-breakfast-with-sunny-side-up-eggs-bacon-toast-pancakes-coffee-and-juice-wood-530324440.jpg',
-    },
-    {
-      id: '2',
-      name: 'Lunch',
-      image: 'https://www.barcelonahacks.com/wp-content/uploads/2017/11/breakfast-in-barcelona.jpg',
-    },
-  ]; 
-
 export default function Dashboard(props) {
   const classes = useStyles();
   const [data, setdata] = useState( [] );
   const [loading, setloading] = useState(true);
-
+  
   useEffect(() => { 
     axios.get(`http://127.0.0.1:8000/api/product/category/`)
         .then(res => {           
@@ -52,6 +40,11 @@ export default function Dashboard(props) {
         setloading(false);
     })
   }, []);
+
+  function handleProductCard () {
+    console.log('clicked');
+    return ( <ProductCard /> )
+  }
 
   if(loading) {
     return (
@@ -68,6 +61,7 @@ export default function Dashboard(props) {
             spacing={1}>
             {data.map(item => (
             <Grid item xs={6} sm={3} key={item.id}>
+                <Link to={`/app/dashboard/${item.name}`} style={{textDecoration:'none'}}>
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
@@ -85,15 +79,9 @@ export default function Dashboard(props) {
                         </Typography> */}
                         </CardContent>
                     </CardActionArea>
-                    {/* <CardActions>
-                        <Button size="small" color="primary">
-                        Share
-                        </Button>
-                        <Button size="small" color="primary">
-                        Learn More
-                        </Button>
-                    </CardActions> */}
                 </Card>
+                </Link>
+                <Route path={`/app/dashboard/:category`} component={ProductCard}/>
             </Grid>
             ))}
         </Grid>
