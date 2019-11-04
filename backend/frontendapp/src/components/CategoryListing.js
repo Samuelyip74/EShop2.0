@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link,useParams } from 'react-router-dom'
+import { Link, Route,useParams } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -70,6 +70,9 @@ export default function ProductCard(props) {
                     </CardActionArea>
                 </Card>
                 </Link>
+                {/* <Route exact path='/app/product/{item.id}'>
+                  <ProductCard product={item} />
+                </Route> */}
             </Grid>
             ))}
         </Grid>

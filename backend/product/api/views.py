@@ -43,6 +43,22 @@ class ProductVariantListView(generics.ListAPIView):
     queryset = ProductVariant.objects.filter(is_active=True)
     serializer_class = ProductVariantSerializer
 
+class ProductVariantListDetail(APIView):
+    """
+    Provides a get method handler.
+    """
+
+    def get_object(self, slug):
+        try:
+            return ProductVariant.objects.filter(id=slug,is_active=True)
+        except ProductVariant.DoesNotExist:
+            raise Http404
+
+    def get(self, request, slug, format=None):
+        product = self.get_object(slug)
+        serializer = ProductVariantSerializer(product,many=True)
+        return Response(serializer.data)
+
 class CategoryListView(generics.ListAPIView):
     """
     Provides a get method handler.
